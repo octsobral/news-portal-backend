@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+
+  db:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data_container:/data/db
+
+  api:
+    container_name: api
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+    environment:
+      - ENVIRON=hmg
+      - DATABASE=news
+      - DATABASE_HOST=db
+      - DATABASE_PORT=27017
+      - DATABASE_USERNAME=
+      - DATABASE_PASSWORD=
+    restart: always
+    depends_on:
+      - db
+
+volumes:
+  mongo_data_container:
